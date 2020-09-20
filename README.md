@@ -6,7 +6,7 @@ See it working for me [HERE](https://rushabh-v.github.io/contributions.html).
 ![my-contribs](https://rushabh-v.github.io/images/my-contribs.png)
 
 ## Usage Guide
-1. Add a secret named `GIT_TOKEN` having your GitHub access token from `settings -> secrets -> new secret` to the repo you want to add this workflow to.
+1. Add a secret named `GITHUB_TOKEN` having your GitHub access token from `settings -> secrets -> new secret` to the repo you want to add this workflow to.
 2. Go to `Actions -> New workflow -> set up a workflow yourself`, paste the following code there, and You're Done!
 
 ```yml
@@ -27,8 +27,8 @@ jobs:
           git clone https://github.com/rushabh-v/Show-Your-Contributions
           cp -r ./Show-Your-Contributions/* ./
           pip3 install pygithub
-          python3 fetch_contribs.py ${{ secrets.GIT_TOKEN }}
-          python3 generate_doc.py ${{ secrets.GIT_TOKEN }}
+          python3 fetch_contribs.py ${{ secrets.GITHUB_TOKEN }}
+          python3 generate_doc.py ${{ secrets.GITHUB_TOKEN }}
       - name: Commit
         uses: test-room-7/action-update-file@v1
         with:
@@ -36,6 +36,6 @@ jobs:
             contributions.html
             total_contribs
           commit-msg: Update resources
-          github-token: ${{ secrets.GIT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
 ```
