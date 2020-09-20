@@ -19,10 +19,11 @@ repo = {
 
 def creat_json(g, prs):
     my_contribs = {}
+    user = g.get_user()
     issues = None
     name = 'issue'
-    if prs: issues = g.search_issues(query="author:rushabh-v is:pr")
-    else:   issues = g.search_issues(query="author:rushabh-v is:issue")
+    if prs: issues = g.search_issues(query="author:{} is:pr".format(user.login))
+    else:   issues = g.search_issues(query="author:{} is:issue".format(user.login))
     n_issues = issues.totalCount
     repo_name = None
     for abc in issues:
@@ -38,11 +39,11 @@ def creat_json(g, prs):
             my_contribs[repo_name]['lang'] = list(r.get_languages().keys())[0]
             org, repo_ = repo_name.split('/')
             if prs: my_contribs[repo_name]['merged_url'] = (
-                        'https://github.com/search?q=is%3Apr+repo%3A'+org+'%2F'+repo_+'+author%3Arushabh-v+is%3Amerged')
+                        'https://github.com/search?q=is%3Apr+repo%3A'+org+'%2F'+repo_+'+author%3A{}+is%3Amerged'.format(user.login))
             my_contribs[repo_name]['closed_url'] = (
-            'https://github.com/search?q=is%3A'+name+'+repo%3A'+org+'%2F'+repo_+'+author%3Arushabh-v+is%3Aclosed')
+            'https://github.com/search?q=is%3A'+name+'+repo%3A'+org+'%2F'+repo_+'+author%3A{}+is%3Aclosed'.format(user.login))
             my_contribs[repo_name]['open_url'] = (
-            'https://github.com/search?q=is%3A'+name+'+repo%3A'+org+'%2F'+repo_+'+author%3Arushabh-v+is%3Aopen')
+            'https://github.com/search?q=is%3A'+name+'+repo%3A'+org+'%2F'+repo_+'+author%3A{}+is%3Aopen'.format(user.login))
         if prs and abc.merged: my_contribs[repo_name]['n_merged'] += 1
         elif abc.state == 'closed': my_contribs[repo_name]['n_closed'] += 1
         else: my_contribs[repo_name]['n_open'] += 1
