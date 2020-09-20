@@ -46,9 +46,9 @@ end = """
         <center>
             <div class="footer-content">
                 <div>
-                    Workflow created by <a target="_blank" class="no-underline" href="https://github.com/rushabh-v"> Rushabh Vasani </a>
-                    And 
-                    template taken from <a target="_blank" class="no-underline" href="https://github.com/my-contributions/my-contributions.github.io">my-contributions</a>!
+                    Workflow created by <a target="_blank" class="no-underline" href="https://github.com/rushabh-v"> <b> Rushabh Vasani </b> </a>
+                    and 
+                    template taken from <a target="_blank" class="no-underline" href="https://github.com/my-contributions/my-contributions.github.io"> <b> my-contributions </b> </a>
                 </div>
             </div>
         <div class="footer-content">
