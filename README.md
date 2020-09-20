@@ -1,7 +1,6 @@
 # Show-Your-Contributions
-An automated workflow that generates/updates an HTML doc that showcases your GitHub contributions.
-
-This Workflow will check your activities everyday at `00:00 UTC` and will automatically update the `contributrions.html` if it finds any new Contributions.
+- An automated workflow that generates/updates an html doc to showcases your GitHub contributions.
+- It will check your activities everyday at `00:00 UTC` and will automatically update the `contributrions.html` if it finds any new Contributions.
 
 See it working for me [HERE](https://rushabh-v.github.io/contributions.html).
 ![my-contribs](https://rushabh-v.github.io/images/my-contribs.png)
