@@ -6,8 +6,9 @@ See it working for me [HERE](https://rushabh-v.github.io/contributions.html).
 ![my-contribs](https://rushabh-v.github.io/images/my-contribs.png)
 
 ## Usage Guide
-1. Add a secret named `GITHUB_TOKEN` having your GitHub access token from `settings -> secrets -> new secret` to the repo you want to add this workflow to.
-2. Go to `Actions -> New workflow -> set up a workflow yourself`, paste the following code there, and You're Done!
+1. Generate a `Personal access token` from `Account settings -> Developer settings -> Personal access tokens`.
+2. Add a secret named `GITHUB_TOKEN` having your that `personal access token` from `repo settings -> secrets -> new secret` to the repo you want to add this workflow to.
+3. Go to `Actions -> New workflow -> set up a workflow yourself`, paste the following code there, and wait for `00:00 UTC`. There will be a `contributions.html` file in that repo which will automatically get updated when you have made any new contributions.
 
 ```yml
 name: update-my-contributions
