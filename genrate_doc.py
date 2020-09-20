@@ -1,10 +1,13 @@
+from os.path import isfile
 import sys
 from github import Github
 
 import json
 
-with open('total_contribs', 'r') as f:
-    prev_contrib = int(f.read())
+if isfile('total_contribs'):
+    with open('total_contribs', 'r') as f:
+        prev_contrib = int(f.read())
+else: prev_contrib = 0
 
 g = Github(sys.argv[1])
 user = g.get_user()
