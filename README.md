@@ -6,7 +6,7 @@ See it working for me [HERE](https://rushabh-v.github.io/contributions.html).
 ![my-contribs](https://rushabh-v.github.io/images/my-contribs.png)
 
 ## Usage Guide
-1. Add a secret named `GITHUB_TOKEN` having your GitHub access token from `settings -> secrets -> new secret` to the repo you want to add this workflow to.
+1. Add a secret named `GITHUB_TOKEN` having your `GitHub access token` from `settings -> secrets -> new secret` to the repo you want to add this workflow to.
 2. Go to `Actions -> New workflow -> set up a workflow yourself`, paste the following code there, and You're Done!
 
 ```yml
