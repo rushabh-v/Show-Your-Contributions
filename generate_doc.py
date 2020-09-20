@@ -42,12 +42,19 @@ end = """
             </div>
         </div>
     </div>
-    <!-- <script src="./Show off your open source contributions and check out others_files/widgets.js" charset="utf-8"></script>
-    <script src="./Show off your open source contributions and check out others_files/bundle.js"></script> -->
     <footer class="footer text-small text-gray">
+        <center>
+            <div class="footer-content">
+                <div>
+                    Workflow created by <a target="_blank" class="no-underline" href="https://github.com/rushabh-v"> Rushabh Vasani </a>
+                    And 
+                    template taken from <a target="_blank" class="no-underline" href="https://github.com/my-contributions/my-contributions.github.io">my-contributions</a>!
+                </div>
+            </div>
         <div class="footer-content">
-            <div>Template by <a target="_blank" class="no-underline" href="https://github.com/31z4">Elisey Zanko</a></div>
+            <b> Add this workflow to your repository: <a target="_blank" class="no-underline" href="https://github.com/rushabh-v/Show-Your-Contributions#show-your-contributions">Guide</a> </b>
         </div>
+        </center>
     </footer>
 
 </body></html>
