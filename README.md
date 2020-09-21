@@ -17,7 +17,7 @@ on:
    - cron: "0 0 * * *"
 
 jobs:
-  resources:
+  main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

@@ -6,8 +6,9 @@ import json
 
 if isfile('total_contribs'):
     with open('total_contribs', 'r') as f:
-        prev_contrib = int(f.read())
-else: prev_contrib = 0
+        try: prev_contrib = int(f.read())
+        except: prev_contrib = -1
+else: prev_contrib = -1
 
 g = Github(sys.argv[1])
 user = g.get_user()
@@ -29,7 +30,12 @@ start = """
             </a>
             <div class="contributions pl-md-4 px-sm-2">
                 <div class="flex-row mt-3">
-                    <h3>Pull Requests</h3>""".format(user.login, user.name, user.avatar_url, user.name)
+                    <h3>Pull Requests</h3>""".format(
+                                                    user.login,
+                                                    user.name if user.name is not None else user.login,
+                                                    user.avatar_url,
+                                                    user.name if user.name is not None else user.login
+                                                )
 
 mid = """
                         </div>
@@ -47,8 +53,8 @@ end = """
             <div class="footer-content">
                 <div>
                     Workflow created by <a target="_blank" class="no-underline" href="https://github.com/rushabh-v"> <b> Rushabh Vasani </b> </a>
-                    and 
-                    template taken from <a target="_blank" class="no-underline" href="https://github.com/my-contributions/my-contributions.github.io"> <b> my-contributions </b> </a>
+                    |
+                    Template used from <a target="_blank" class="no-underline" href="https://github.com/my-contributions/my-contributions.github.io"> <b> my-contributions </b> </a>
                 </div>
             </div>
         <div class="footer-content">
@@ -86,7 +92,7 @@ def add_row(contribs, key, is_pr):
     if n_days > 30: last_mod = str(n_days // 30) + " months ago"
     else: last_mod = str(n_days) + " days ago"
 
-    if is_pr and n_merged == 0:
+    if is_pr and (n_merged + n_open) == 0:
         return "", (n_merged + n_open + n_closed)
 
     lang_color = (lang_colors[lang] if lang in lang_colors
