@@ -174,7 +174,7 @@ if __name__ == '__main__':
     html += end
 
     if prev_contrib == cur_contrib:
-        exit(1)
+        exit()
 
     with open('total_contribs', 'w') as f:
         f.write(str(cur_contrib))
