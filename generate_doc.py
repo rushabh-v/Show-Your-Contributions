@@ -72,8 +72,9 @@ lang_colors = {
     'Java': 'rgb(176, 114, 25)',
     'C++': 'rgb(243, 75, 125)',
     'Jupyter Notebook': 'rgb(218, 91, 11)',
-    'JavaScript': 'rgb(255,255,0)',
-    'C': 'rgb(169,169,169)',
+    'JavaScript': 'rgb(255, 255, 0)',
+    'C': 'rgb(169, 169, 169)',
+    'GitHub': 'rgb(12, 12, 9)'
 }
 
 def add_row(contribs, key, is_pr):

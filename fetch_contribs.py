@@ -36,7 +36,13 @@ def creat_json(g, prs):
             my_contribs[repo_name] = repo.copy()
             r = g.get_repo(repo_name)
             my_contribs[repo_name]['stars'] = r.stargazers_count
-            my_contribs[repo_name]['lang'] = list(r.get_languages().keys())[0]
+
+            repo_langs = list(r.get_languages().keys())
+            if len(repo_langs) > 0:
+                my_contribs[repo_name]['lang'] = repo_langs[0]
+            else:
+                my_contribs[repo_name]['lang'] = 'GitHub'
+
             org, repo_ = repo_name.split('/')
             if prs: my_contribs[repo_name]['merged_url'] = (
                         'https://github.com/search?q=is%3Apr+repo%3A'+org+'%2F'+repo_+'+author%3A{}+is%3Amerged'.format(user.login))
