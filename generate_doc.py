@@ -143,11 +143,23 @@ def add_row(contribs, key, is_pr):
                     </div>""".format(lang_color, lang, stars, last_mod)
     return repo_html, (n_merged + n_open + n_closed)
 
+def remove_prs_below_threshold(prs, threshold):
+    filtered_prs = {}
+    for(repo, contrib) in prs.items():
+        if contrib["n_merged"] + contrib["n_closed"] + contrib["n_open"] >= threshold:
+            filtered_prs[repo] = contrib
+    return filtered_prs
+
 if __name__ == '__main__':
     with open('my_contribs.json', 'r') as j:
         contribs = json.load(j)
     contribs = json.loads(contribs)
-    prs = contribs['pulls']
+    try:
+        threshold = int(sys.argv[2])
+    except:
+        threshold = 0
+
+    prs = remove_prs_below_threshold(contribs['pulls'], threshold)
     issues = contribs['issues']
 
     def get_count_pr(d):
