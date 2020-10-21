@@ -8,11 +8,13 @@ See it working for me [HERE](https://rushabh-v.github.io/contributions.html).
 ## Usage Guide
 1. Generate a `Personal access token` from `Account settings -> Developer settings -> Personal access tokens`.
 2. Add a secret named `GIT_TOKEN` having your that `personal access token` from `repo settings -> secrets -> new secret` to the repo you want to add this workflow to.
-3. Go to `Actions -> New workflow -> set up a workflow yourself`, paste the following code there, and wait for `00:00 UTC`. There will be a `contributions.html` file in that repo which will automatically get updated when you have made any new contributions.
+3. Go to `Actions -> New workflow -> set up a workflow yourself`, paste the following code there, and it will add a document named `contributions.html` in that repo which will automatically get updated on your new contributions (On the first occurrence of `00:00 UTC` after your contribution).
 
 ```yml
 name: update-my-contributions
 on:
+  push:
+   paths: ".github/workflows/*"
   schedule:
    - cron: "0 0 * * *"
 
