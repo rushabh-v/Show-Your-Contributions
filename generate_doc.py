@@ -158,7 +158,7 @@ if __name__ == '__main__':
     pr_keys = sorted(prs.keys(), key=get_count_pr, reverse=True)
     issues_keys = sorted(issues.keys(), key=get_count_issue, reverse=True)
 
-    f = open("head.html", "r")
+    f = open("head", "r")
     html = f.read() + start
 
     for key in pr_keys:
