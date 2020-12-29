@@ -50,10 +50,11 @@ def add_row(contribs, key, is_pr):
 
     lang_color = (lang_colors[lang] if lang in lang_colors
                      else 'rgb(0,255,0)')
+
     repo_html = templates["pr_head"].format(org, repo_name, org, repo_name)
     if n_merged: repo_html += templates["pr_merged"].format(merged_link, n_merged)
     if n_open:   repo_html += templates["pr_open"].format(open_link, n_open)
-    if n_closed: repo_html += templates["pr_close"].format(closed_link, n_closed)
+    if n_closed: repo_html += templates["pr_closed"].format(closed_link, n_closed)
     repo_html += templates["pr_tail"].format(lang_color, lang, stars, last_mod)
 
     return repo_html, (n_merged + n_open + n_closed)
