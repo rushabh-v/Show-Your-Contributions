@@ -90,6 +90,7 @@ def creat_json(g, prs):
 
 if __name__ == "__main__":
     # Install deps
+    system("sudo apt update")
     system("sudo apt install wkhtmltopdf xvfb")
     system("pip3 install imgkit")
 
