@@ -4,81 +4,33 @@ from github import Github
 
 import json
 
+g = Github(sys.argv[1])
+user = g.get_user()
+cur_contrib = 0
+
+with open('templates.json', 'r') as j:
+    templates = json.load(j)
+
+start = templates["start"].format(
+    user.login,
+    user.name if user.name is not None else user.login,
+    user.avatar_url,
+    user.name if user.name is not None else user.login
+)
+middle = templates["middle"]
+tail = templates["tail"]
+
+with open('colors.json', 'r') as j:
+    lang_colors = json.load(j)
+
 if isfile('total_contribs'):
     with open('total_contribs', 'r') as f:
         try: prev_contrib = int(f.read())
         except: prev_contrib = -1
 else: prev_contrib = -1
 
-g = Github(sys.argv[1])
-user = g.get_user()
-cur_contrib = 0
-
-start = """
-<body>
-    <div id="root" class="content">
-        <div class="header">
-            <div class="header-contents" style="display: block!important;">My Contributions</div>
-        </div>
-        <div class="results"><a target="_blank" class="h3 link-gray-dark no-underline author-name"
-                href="https://github.com/{}">
-                <div class="author"><img class="avatar mb-2" alt="{}"
-                        src="{}"
-                        height="190" width="190">
-                    <div>{}</div>
-                </div>
-            </a>
-            <div class="contributions pl-md-4 px-sm-2">
-                <div class="flex-row mt-3">
-                    <h3>Pull Requests</h3>""".format(
-                                                    user.login,
-                                                    user.name if user.name is not None else user.login,
-                                                    user.avatar_url,
-                                                    user.name if user.name is not None else user.login
-                                                )
-
-mid = """
-                        </div>
-                <div class="flex-row  mt-3">
-                    <h3>Issues</h3>
-"""
-
-end = """
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer class="footer text-small text-gray">
-        <center>
-            <div class="footer-content">
-                <div>
-                    Workflow created by <a target="_blank" class="no-underline" href="https://github.com/rushabh-v"> <b> Rushabh Vasani </b> </a>
-                    |
-                    Template used from <a target="_blank" class="no-underline" href="https://github.com/my-contributions/my-contributions.github.io"> <b> my-contributions </b> </a>
-                </div>
-            </div>
-        <div class="footer-content">
-            <b> Add this workflow to your repository: <a target="_blank" class="no-underline" href="https://github.com/rushabh-v/Show-Your-Contributions#show-your-contributions">Guide</a> </b>
-        </div>
-        </center>
-    </footer>
-
-</body></html>
-
-"""
-
-lang_colors = {
-    'Python': 'rgb(53, 114, 165)',
-    'Java': 'rgb(176, 114, 25)',
-    'C++': 'rgb(243, 75, 125)',
-    'Jupyter Notebook': 'rgb(218, 91, 11)',
-    'JavaScript': 'rgb(255, 255, 0)',
-    'C': 'rgb(169, 169, 169)',
-    'GitHub': 'rgb(12, 12, 9)'
-}
 
 def add_row(contribs, key, is_pr):
-
     org, repo_name = key.split('/')
     merged_link = contribs[key]['merged_url']
     open_link = contribs[key]['open_url']
@@ -99,53 +51,17 @@ def add_row(contribs, key, is_pr):
     lang_color = (lang_colors[lang] if lang in lang_colors
                      else 'rgb(0,255,0)')
 
-    repo_html = """
-                        <div class="border-top py-1">
-                            <div class="d-flex flex-justify-between text-gray">
-                                <div><a target="_blank" class="link-gray no-underline"
-                                        href="https://github.com/{}/{}"><span>{}</span>/<span
-                                            class="text-bold">{}</span></a></div>
-                                <div class="d-inline-flex flex-justify-end">""".format(org, repo_name, org, repo_name)
+    repo_html = templates["pr_head"].format(org, repo_name, org, repo_name)
+    if n_merged: repo_html += templates["pr_merged"].format(merged_link, n_merged)
+    if n_open:   repo_html += templates["pr_open"].format(open_link, n_open)
+    if n_closed: repo_html += templates["pr_closed"].format(closed_link, n_closed)
+    repo_html += templates["pr_tail"].format(lang_color, lang, stars, last_mod)
 
-    if n_merged:
-        repo_html += """
-                                    <div><a target="_blank" class="link-gray no-underline"
-                                            href={}
-                                            style="cursor: pointer;"><span class="counter merged">{}</span>&nbsp;merged</a></div>""".format(merged_link, n_merged)
-
-    if n_open:
-        repo_html += """
-                                    <div><a target="_blank" class="link-gray no-underline"
-                                            href={}
-                                            style="cursor: pointer;"><span class="counter open">{}</span>&nbsp;open</a></div>""".format(open_link, n_open)
-    if n_closed:
-        repo_html += """
-                                    <div><a target="_blank" class="link-gray no-underline"
-                                            href={}
-                                            style="cursor: pointer;"><span class="counter closed">{}</span>&nbsp;closed</a></div>""".format(closed_link, n_closed)
-        
-    repo_html += """
-                            </div>
-                        </div>
-                        <div class="d-flex flex-justify-between text-gray">
-                            <div class="d-inline-flex">
-                                <div class="f6 flex-items-center mr-3 mt-1"><span class="repository-language"
-                                        style="background-color: {};"></span>&nbsp;{}</div>
-                                <div class="repository-stars"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16"
-                                        viewBox="0 0 14 16">
-                                        <path fill-rule="evenodd"
-                                            d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z">
-                                        </path>
-                                    </svg>&nbsp;{}</div>
-                            </div>
-                            <div class="f6 mt-1">{}</div>
-                        </div>
-                    </div>""".format(lang_color, lang, stars, last_mod)
     return repo_html, (n_merged + n_open + n_closed)
 
 def remove_prs_below_threshold(prs, threshold):
     filtered_prs = {}
-    for(repo, contrib) in prs.items():
+    for repo, contrib in prs.items():
         if contrib["n_merged"] + contrib["n_closed"] + contrib["n_open"] >= threshold:
             filtered_prs[repo] = contrib
     return filtered_prs
@@ -170,21 +86,18 @@ if __name__ == '__main__':
     pr_keys = sorted(prs.keys(), key=get_count_pr, reverse=True)
     issues_keys = sorted(issues.keys(), key=get_count_issue, reverse=True)
 
-    f = open("head.html", "r")
-    html = f.read() + start
-
+    html = templates["head"] + start
     for key in pr_keys:
         code, count = add_row(prs, key, True)
         html += code
         cur_contrib += count
 
-    html += mid
+    html += middle
     for key in issues_keys:
         code, count = add_row(issues, key, False)
         html += code
         cur_contrib += count
-
-    html += end
+    html += tail
 
     if prev_contrib == cur_contrib:
         exit()
