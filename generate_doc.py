@@ -62,6 +62,7 @@ def add_row(contribs, key, is_pr):
 
 
 def remove_prs_below_threshold(prs, threshold):
+    if threshold is None: return {}
     filtered_prs = {}
     for repo, contrib in prs.items():
         if contrib["n_merged"] + contrib["n_open"] >= threshold:
@@ -84,7 +85,7 @@ if __name__ == '__main__':
         contribs = json.load(j)
     contribs = json.loads(contribs)
     try:    threshold = int(sys.argv[2])
-    except: threshold = 0
+    except: threshold = None
 
     issues = contribs['issues']
     prs = contribs['pulls']
@@ -96,7 +97,9 @@ if __name__ == '__main__':
     pr_keys = sorted(prs.keys(), key=get_count_pr, reverse=True)
     issues_keys = sorted(issues.keys(), key=get_count_issue, reverse=True)
     readme_pr_keys = sorted(readme_prs.keys(), key=get_count_pr, reverse=True)
-    generate_readme_image(readme_prs, readme_pr_keys)
+
+    if threshold is not None:
+        generate_readme_image(readme_prs, readme_pr_keys)
 
     html = templates["head"] + start
     for key in pr_keys:
