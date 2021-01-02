@@ -75,7 +75,8 @@ def generate_readme_image(readme_prs, readme_pr_keys):
         code, _ = add_row(readme_prs, key, True)
         html += code
     html += templates["readme_tail"]
-    imgkit.from_string(html, "contributions.png")
+    options = {"xvfb": ""}
+    imgkit.from_string(html, "contributions.png", options=options)
 
 
 if __name__ == '__main__':
