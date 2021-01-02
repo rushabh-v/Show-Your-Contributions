@@ -3,6 +3,7 @@ import sys
 from github import Github
 
 import json
+import imgkit
 
 g = Github(sys.argv[1])
 user = g.get_user()
@@ -59,36 +60,46 @@ def add_row(contribs, key, is_pr):
 
     return repo_html, (n_merged + n_open + n_closed)
 
+
 def remove_prs_below_threshold(prs, threshold):
     filtered_prs = {}
     for repo, contrib in prs.items():
-        if contrib["n_merged"] + contrib["n_closed"] + contrib["n_open"] >= threshold:
+        if contrib["n_merged"] + contrib["n_open"] >= threshold:
             filtered_prs[repo] = contrib
     return filtered_prs
+
+
+def generate_readme_image(readme_prs, readme_pr_keys):
+    html = templates["head"] + templates["readme_start"]
+    for key in readme_pr_keys:
+        code, _ = add_row(readme_prs, key, True)
+        html += code
+    html += templates["readme_tail"]
+    imgkit.from_string(html, "contributions.png")
+
 
 if __name__ == '__main__':
     with open('my_contribs.json', 'r') as j:
         contribs = json.load(j)
     contribs = json.loads(contribs)
-    try:
-        threshold = int(sys.argv[2])
-    except:
-        threshold = 0
+    try:    threshold = int(sys.argv[2])
+    except: threshold = 0
 
-    prs = remove_prs_below_threshold(contribs['pulls'], threshold)
     issues = contribs['issues']
+    prs = contribs['pulls']
+    readme_prs = remove_prs_below_threshold(prs, threshold)
 
-    def get_count_pr(d):
-        return prs[d]['n_open'] + prs[d]['n_merged']
-    def get_count_issue(d):
-        return issues[d]['n_open'] + issues[d]['n_closed']
+    get_count_pr = lambda d: (prs[d]['n_open'] + prs[d]['n_merged'])
+    get_count_issue = lambda d: (issues[d]['n_open'] + issues[d]['n_closed'])
 
     pr_keys = sorted(prs.keys(), key=get_count_pr, reverse=True)
     issues_keys = sorted(issues.keys(), key=get_count_issue, reverse=True)
+    readme_pr_keys = sorted(readme_prs.keys(), key=get_count_pr, reverse=True)
+    generate_readme_image(readme_prs, readme_pr_keys)
 
     html = templates["head"] + start
     for key in pr_keys:
-        code, count = add_row(prs, key, True)
+        code, count = add_row(prs, key, is_pr=True)
         html += code
         cur_contrib += count
 
@@ -99,6 +110,7 @@ if __name__ == '__main__':
         cur_contrib += count
     html += tail
 
+    # Exit if no new contributions
     if prev_contrib == cur_contrib:
         exit()
 
