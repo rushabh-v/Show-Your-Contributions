@@ -1,4 +1,5 @@
 import sys
+from os import system
 
 from github import Github
 from datetime import datetime
@@ -88,6 +89,11 @@ def creat_json(g, prs):
 
 
 if __name__ == "__main__":
+    # Install deps
+    system("sudo apt install wkhtmltopdf xvfb")
+    system("pip3 install imgkit")
+
+    # Fetch Data
     g = Github(sys.argv[1])
     pulls, n_pulls = creat_json(g, True)
     issues, n_issues = creat_json(g, prs=False)
