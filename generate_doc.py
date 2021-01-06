@@ -2,8 +2,8 @@ from os.path import isfile
 import sys
 from github import Github
 
-import json
 import imgkit
+import json
 
 g = Github(sys.argv[1])
 user = g.get_user()
@@ -106,7 +106,6 @@ if __name__ == "__main__":
     issues_keys = sorted(issues.keys(), key=get_count_issue, reverse=True)
     readme_pr_keys = sorted(readme_prs.keys(), key=get_count_pr, reverse=True)
 
-    generate_readme_image(readme_prs, readme_pr_keys)
     html = templates["head"] + start
     for key in pr_keys:
         code, count = add_row(prs, key, is_pr=True)
@@ -124,6 +123,7 @@ if __name__ == "__main__":
     if prev_contrib == cur_contrib:
         exit()
 
+    generate_readme_image(readme_prs, readme_pr_keys)
     with open("total_contribs", "w") as f:
         f.write(str(cur_contrib))
     with open("contributions.html", "w") as f:
