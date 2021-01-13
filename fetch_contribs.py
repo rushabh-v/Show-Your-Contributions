@@ -92,7 +92,7 @@ if __name__ == "__main__":
     # Install deps
     system("sudo apt update")
     system("sudo apt install wkhtmltopdf xvfb")
-    system("pip3 install imgkit")
+    system("pip3 install imgkit pillow")
 
     # Fetch Data
     g = Github(sys.argv[1])

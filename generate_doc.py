@@ -47,10 +47,11 @@ def add_row(contribs, key, is_pr):
     n_days = contribs[key]["last_mod"]
     stars = contribs[key]["stars"]
     last_mod = ""
-    if n_days > 30:
-        last_mod = str(n_days // 30) + " months ago"
-    else:
-        last_mod = str(n_days) + " days ago"
+
+    if n_days >= 365: last_mod = str(n_days // 365) + " years ago"
+    elif n_days > 30: last_mod = str(n_days // 30) + " months ago"
+    elif n_days > 0:  last_mod = str(n_days) + " days ago"
+    else:             last_mod = "today"
 
     if is_pr and (n_merged + n_open) == 0:
         return "", (n_merged + n_open + n_closed)
@@ -129,7 +130,12 @@ if __name__ == "__main__":
         exit()
 
     generate_readme_image(readme_prs, readme_pr_keys)
-    with open("total_contribs", "w") as f:
-        f.write(str(cur_contrib))
-    with open("contributions.html", "w") as f:
-        f.write(html)
+    with open("total_contribs", "w") as file:
+        file.write(str(cur_contrib))
+    with open("contributions.html", "w") as file:
+        file.write(html)
+    with open("profile_readme.txt", "w") as file:
+        content = ("[![My contributions]" +
+            "(https://{}.github.io/contributions.png)]".format(user.login) +
+            "(https://{}.github.io/contributions)".format(user.login))
+        file.write(content)
