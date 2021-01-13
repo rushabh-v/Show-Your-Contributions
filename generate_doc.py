@@ -1,3 +1,4 @@
+
 from os.path import isfile
 import sys
 from github import Github
@@ -89,6 +90,8 @@ def generate_readme_image(readme_prs, readme_pr_keys):
     img = Image.open("contributions.png")
     _, height = img.size
     img = img.crop((85, 0, 785, height))
+    width, height = int(700 * 0.7), int(height * 0.7)
+    img = img.resize((width, height))
     img.save("contributions.png")
 
 
