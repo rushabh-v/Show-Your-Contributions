@@ -4,6 +4,7 @@ from github import Github
 
 import imgkit
 import json
+from PIL import Image
 
 g = Github(sys.argv[1])
 user = g.get_user()
@@ -84,6 +85,10 @@ def generate_readme_image(readme_prs, readme_pr_keys):
     html += templates["readme_tail"]
     options = {"xvfb": ""}
     imgkit.from_string(html, "contributions.png", options=options)
+    img = Image.open("contributions.png")
+    _, height = img.size
+    img = img.crop((85, 0, 785, height))
+    img.save("contributions.png")
 
 
 if __name__ == "__main__":
