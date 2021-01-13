@@ -92,6 +92,14 @@ def generate_readme_image(readme_prs, readme_pr_keys):
     img.save("contributions.png")
 
 
+def save_profile_readme_txt():
+    with open("profile_readme.txt", "w") as file:
+        content = ("[![My contributions]" +
+            "(https://{}.github.io/contributions.png)]".format(user.login) +
+            "(https://{}.github.io/contributions)".format(user.login))
+        file.write(content)
+
+
 if __name__ == "__main__":
     with open("my_contribs.json", "r") as j:
         contribs = json.load(j)
@@ -127,15 +135,15 @@ if __name__ == "__main__":
 
     # Exit if no new contributions
     if prev_contrib == cur_contrib:
+        if not isfile("profile_readme.txt"):
+            save_profile_readme_txt()
+        if not isfile("contributions.png"):
+            generate_readme_image(readme_prs, readme_pr_keys)
         exit()
 
     generate_readme_image(readme_prs, readme_pr_keys)
+    save_profile_readme_txt()
     with open("total_contribs", "w") as file:
         file.write(str(cur_contrib))
     with open("contributions.html", "w") as file:
         file.write(html)
-    with open("profile_readme.txt", "w") as file:
-        content = ("[![My contributions]" +
-            "(https://{}.github.io/contributions.png)]".format(user.login) +
-            "(https://{}.github.io/contributions)".format(user.login))
-        file.write(content)
