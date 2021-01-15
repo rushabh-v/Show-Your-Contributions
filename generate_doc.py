@@ -89,8 +89,8 @@ def generate_readme_image(readme_prs, readme_pr_keys):
     imgkit.from_string(html, "contributions.png", options=options)
     img = Image.open("contributions.png")
     _, height = img.size
-    img = img.crop((85, 0, 785, height))
-    width, height = int(700 * 0.6), int(height * 0.6)
+    img = img.crop((120, 10, 730, height))
+    width, height = int(610 * 0.65), int(height * 0.65)
     img = img.resize((width, height))
     img.save("contributions.png")
 
