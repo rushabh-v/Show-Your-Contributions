@@ -90,7 +90,7 @@ def generate_readme_image(readme_prs, readme_pr_keys):
     img = Image.open("contributions.png")
     _, height = img.size
     img = img.crop((120, 10, 730, height))
-    width, height = int(610 * 0.60), int(height * 0.65)
+    width, height = int(610 * 0.815), int(height * 0.815)
     img = img.resize((width, height))
     img.save("contributions.png")
 
