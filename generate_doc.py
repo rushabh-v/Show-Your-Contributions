@@ -80,7 +80,7 @@ def remove_prs_below_threshold(prs, threshold):
 
 
 def generate_readme_image(readme_prs, readme_pr_keys):
-    html = templates["head"] + templates["readme_start"]
+    html = templates["readme_head"] + templates["readme_start"]
     for key in readme_pr_keys:
         code, _ = add_row(readme_prs, key, True)
         html += code
@@ -88,10 +88,11 @@ def generate_readme_image(readme_prs, readme_pr_keys):
     options = {"xvfb": ""}
     imgkit.from_string(html, "contributions.png", options=options)
     img = Image.open("contributions.png")
-    _, height = img.size
-    img = img.crop((120, 10, 730, height))
-    width, height = int(610 * 0.815), int(height * 0.815)
-    img = img.resize((width, height))
+    width, height = img.size
+    center = width // 2
+    img = img.crop((center - 405, 10, center + 105, height))
+    # width, height = int(610 * 0.815), int(height * 0.815)
+    # img = img.resize((width, height))
     img.save("contributions.png")
 
 
