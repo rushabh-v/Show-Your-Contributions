@@ -90,14 +90,13 @@ def generate_readme_image(readme_prs, readme_pr_keys):
     html += templates["readme_tail"]
     options = {
                 "xvfb": "",
-                "--quality": 100,  # Set the quality (indirectly affects DPI)
-                "--crop-dpi": 300  # Directly set the DPI
+                "width": 2048,
               }
     imgkit.from_string(html, "contributions.png", options=options, )
     img = Image.open("contributions.png")
     width, height = img.size
     center = width // 2
-    img = img.crop((center - 385, 10, center + 115, height))
+    img = img.crop((center - (385 * 2), 10, center + (115 * 2) , height))
     # width, height = int(610 * 0.815), int(height * 0.815)
     # img = img.resize((width, height))
     img.save("contributions.png")
