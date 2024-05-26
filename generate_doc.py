@@ -85,7 +85,7 @@ def generate_readme_image(readme_prs, readme_pr_keys):
         code, _ = add_row(readme_prs, key, True)
         html += code
     html += templates["readme_tail"]
-    options = {"xvfb": "", "dpi": 300}
+    options = {"xvfb": ""}
     imgkit.from_string(html, "contributions.png", options=options, )
     img = Image.open("contributions.png")
     width, height = img.size
