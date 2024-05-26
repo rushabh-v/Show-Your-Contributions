@@ -54,6 +54,9 @@ def add_row(contribs, key, is_pr):
     elif n_days > 0:  last_mod = str(n_days) + " days ago"
     else:             last_mod = "today"
 
+    if last_mod.startswith('1'):
+        last_mod = last_mod.replace('days', 'day').replace('years', 'year').replace('months', 'month')
+
     if is_pr and (n_merged + n_open) == 0:
         return "", (n_merged + n_open + n_closed)
 
